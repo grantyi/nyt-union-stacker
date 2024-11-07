@@ -7,6 +7,7 @@ export default class Preloader extends Phaser.Scene {
   }
 
   preload() {
+    this.load.setBaseURL('https://grantyi.github.io/nyt-union-stacker');
     this.load.image('test-background', '/images/bg.png');
     this.load.image('test-paper', '/images/paper.png');
     this.load.image('test-stack', '/images/test-stack.webp');
@@ -18,14 +19,10 @@ export default class Preloader extends Phaser.Scene {
     this.load.image('gameover', '/images/gameover.png');
     this.load.image('next', '/images/next.png');
     this.load.image('playagain', '/images/playagain.png');
-    this.load.spritesheet(
-      'dude',
-      'http://localhost:8000/images/new-sprite.png',
-      {
-        frameWidth: 512,
-        frameHeight: 512,
-      }
-    );
+    this.load.spritesheet('dude', '/images/new-sprite.png', {
+      frameWidth: 512,
+      frameHeight: 512,
+    });
     this.load.on('complete', () => {
       this.scene.start('start');
     });
