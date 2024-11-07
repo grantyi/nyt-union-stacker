@@ -4,5 +4,5 @@ export default defineConfig({
   plugins: [],
   server: { port: 8000, open: true, cors: true },
   clearScreen: false,
-  base: '/nyt-union-stacker/dist/',
+  base: '/nyt-union-stacker/',
 });
