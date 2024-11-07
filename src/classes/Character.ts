@@ -53,7 +53,10 @@ export class Character extends Phaser.GameObjects.Sprite {
   create() {
     // Create Input Event
     this.cursors = this.scene.input.keyboard;
-
+    this.setInteractive({ draggable: true });
+    this.on('drag', (_e, dragX) => {
+      this.x = dragX;
+    });
     // key objects
     this.cursors.keyobj_left = this.scene.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.LEFT

@@ -22,4 +22,10 @@ const config = {
   scene: [Preloader, Start, Instructions, Stack, LevelEnd, Lose, Win],
 };
 
-export default new Phaser.Game(config);
+const game = new Phaser.Game(config);
+const isMobile = game.device.os.iPhone || game.device.os.android;
+if (isMobile) {
+  game.scale.resize(450, 350);
+}
+
+export default game;

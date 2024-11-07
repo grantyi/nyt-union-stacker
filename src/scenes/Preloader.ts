@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 
 export default class Preloader extends Phaser.Scene {
   constructor() {
-    console.log('hello!');
+    console.log();
     super('preloader');
   }
 

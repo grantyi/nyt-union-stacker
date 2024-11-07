@@ -32,7 +32,10 @@ export class Proposals extends Phaser.Physics.Arcade.Group {
       ),
       loop: true,
       callback: () => {
-        const x = Phaser.Math.RND.between(0, 800);
+        const isMobile =
+          this.scene.game.device.os.iPhone || this.scene.game.device.os.android;
+        const xMax = isMobile ? 400 : 750;
+        const x = Phaser.Math.RND.between(0, xMax);
         const y = Phaser.Math.RND.between(0, 0);
         const velocity = Phaser.Math.RND.between(0, 100 + 10 * level);
         this.fire(x, y, 0, velocity);
