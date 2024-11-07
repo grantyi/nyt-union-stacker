@@ -3,6 +3,7 @@ import Phaser from 'phaser';
 export class Character extends Phaser.GameObjects.Sprite {
   cursors: any;
   facingLeft: boolean;
+  isMobile: boolean;
   constructor(
     scene: any,
     x: number,
@@ -19,13 +20,7 @@ export class Character extends Phaser.GameObjects.Sprite {
       frameRate: 5,
       repeat: -1,
     });
-
-    // this.anims.create({
-    //   key: 'ow',
-    //   frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 0 }),
-
-    //   repeat: 0,
-    // });
+    this.isMobile = scene.game.device.os.iPhone || scene.game.device.os.android;
 
     // Making the homie
     this.setTexture(texture);
@@ -53,10 +48,6 @@ export class Character extends Phaser.GameObjects.Sprite {
   create() {
     // Create Input Event
     this.cursors = this.scene.input.keyboard;
-    this.setInteractive({ draggable: true });
-    this.on('drag', (_e, dragX) => {
-      this.x = dragX;
-    });
     // key objects
     this.cursors.keyobj_left = this.scene.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.LEFT
@@ -68,13 +59,17 @@ export class Character extends Phaser.GameObjects.Sprite {
 
   damage() {
     this.anims.stop();
-    // this.anims.play('ow');
   }
 
   update() {
     let guy = <Phaser.Physics.Arcade.Body>this.body;
     // Move Left
-    if (this.cursors.keyobj_left.isDown) {
+    if (
+      this.cursors.keyobj_left.isDown ||
+      (this.isMobile &&
+        this.scene.input.activePointer.isDown &&
+        this.scene.input.activePointer.x < 225)
+    ) {
       this.anims.play('walk', true);
       guy.setVelocityX(-200);
       if (!this.facingLeft) {
@@ -82,7 +77,12 @@ export class Character extends Phaser.GameObjects.Sprite {
         this.facingLeft = !this.facingLeft;
       }
       // Move Right
-    } else if (this.cursors.keyobj_right.isDown) {
+    } else if (
+      this.cursors.keyobj_right.isDown ||
+      (this.isMobile &&
+        this.scene.input.activePointer.isDown &&
+        this.scene.input.activePointer.x >= 225)
+    ) {
       this.anims.play('walk', true);
       guy.setVelocityX(200);
       if (this.facingLeft) {
