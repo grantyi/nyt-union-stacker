@@ -7,7 +7,7 @@ import GameStore from "../stores/GameStore";
 import Score from "../classes/Score";
 import Timer from "../classes/Timer";
 import IckBar from "../classes/IckBar";
-import { Boss } from "../classes/Boss";
+// import { Boss } from "../classes/Boss";
 export default class Stack extends Phaser.Scene {
   rat: Character | undefined;
   collectedPapers: any[] = [];
@@ -16,7 +16,7 @@ export default class Stack extends Phaser.Scene {
   score: Score | undefined;
   timer: Timer | undefined;
   ickBar: IckBar | undefined;
-  boss: Boss | undefined;
+  // boss: Boss | undefined;
   unsubscribe: () => void;
   constructor() {
     super("stack");
@@ -28,7 +28,7 @@ export default class Stack extends Phaser.Scene {
     this.rat = new Character(this, 400, 550, "dude");
     this.rat.setDepth(2);
 
-    this.boss = new Boss(this, 200, 100, "boss1", "boss2", 2000);
+    // this.boss = new Boss(this, 200, 100, "boss1", "boss2", 2000);
 
     this.particles = new Particles(this, "red");
     this.collectedPapers = [];
@@ -85,7 +85,7 @@ export default class Stack extends Phaser.Scene {
   update() {
     this.rat?.update();
     this.timer?.update();
-    this.boss?.update();
+    // this.boss?.update();
     this.collectedPapers.forEach((element, index) => {
       element.setPosition(
         this.rat?.getBounds().centerX + (this.rat?.facingLeft ? -30 : 30),

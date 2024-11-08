@@ -1,12 +1,14 @@
 import Phaser from "phaser";
-import { Proposal } from "./Proposal";
-import { ProposalType } from "./Proposals";
+import { BossBomb } from "./BossBomb";
+import { Character } from "./Character";
 
 export class Boss extends Phaser.GameObjects.Sprite {
   movingRight: boolean;
   dropTimer: Phaser.Time.TimerEvent;
   pauseTimer: Phaser.Time.TimerEvent;
   isPaused: boolean;
+  player: Character;
+  speed: number;
 
   constructor(
     scene: any,
@@ -14,7 +16,8 @@ export class Boss extends Phaser.GameObjects.Sprite {
     y: number,
     texture1: string,
     texture2: string,
-    dropInterval: number = 2000
+    dropInterval: number = 2000,
+    player: Character
   ) {
     super(scene, x, y, texture1);
 
@@ -31,6 +34,8 @@ export class Boss extends Phaser.GameObjects.Sprite {
     // Boss config
     this.movingRight = true;
     this.isPaused = false;
+    this.speed = 100; // Set boss movement speed
+
     bossBody.setCollideWorldBounds(true);
     bossBody.setImmovable(true);
 
@@ -40,10 +45,20 @@ export class Boss extends Phaser.GameObjects.Sprite {
     // Begin moving
     bossBody.setVelocityX(100);
 
+    this.player = player;
+
     // Set up a timer to switch textures every 0.5 seconds
     this.scene.time.addEvent({
       delay: 500,
       callback: this.toggleTexture,
+      callbackScope: this,
+      loop: true,
+    });
+
+    // Set up a timer to drop bombs at intervals
+    this.dropTimer = this.scene.time.addEvent({
+      delay: dropInterval,
+      callback: this.dropBomb,
       callbackScope: this,
       loop: true,
     });
@@ -60,6 +75,18 @@ export class Boss extends Phaser.GameObjects.Sprite {
         ? this.getData("texture2")
         : this.getData("texture1");
     this.setTexture(newTexture);
+  }
+
+  dropBomb() {
+    // Create a new bomb at the boss's current position
+    // const targetX = this.player.x; // vs boss location being this.x
+    const bomb = new BossBomb(this.scene, this.x, this.y, "bombTexture");
+
+    // Optionally add the bomb to a group for collision handling
+    if (!this.scene.bombs) {
+      this.scene.bombs = this.scene.add.group();
+    }
+    this.scene.bombs.add(bomb);
   }
 
   pause() {}

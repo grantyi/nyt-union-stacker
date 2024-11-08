@@ -20,6 +20,8 @@ export default class Preloader extends Phaser.Scene {
     this.load.image("playagain", "/images/playagain.png");
     this.load.image("boss1", "/images/cto.png");
     this.load.image("boss2", "/images/cto2.png");
+    this.load.image("bomb-pip-1", "/images/bomb_pip-1.png");
+    this.load.image("bomb-pip-2", "/images/bomb_pip-2.png");
     this.load.spritesheet(
       "dude",
       "http://localhost:8000/images/new-sprite.png",
